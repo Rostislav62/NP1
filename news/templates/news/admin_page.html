@@ -1,0 +1,30 @@
+{% extends 'news/default.html' %}
+
+{% block title %}Административная страница{% endblock %}
+
+{% block header %}Административная часть{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Форма для кнопки Создать новую запись -->
+        <form method="post" action="{% url 'create_news' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <button type="submit" name="create" class="btn btn-primary">
+                    Создать новую запись
+                </button>
+            </div>
+        </form>
+
+        <!-- Форма для кнопки Редактировать запись -->
+        <form method="post" action="{% url 'article_search' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <input type="hidden" name="edit_mode" value="true">
+                <input type="hidden" name="delete_mode" value="false">
+                <input type="hidden" name="record_type" value="{{ request.POST.record_type }}">
+                <button type="submit" name="edit" class="btn btn-secondary">Редактировать или удалить запись</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

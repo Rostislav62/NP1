@@ -1,0 +1,38 @@
+{% extends 'news/default.html' %}
+
+{% block title %}Создание новости{% endblock %}
+
+{% block header %}Создание новости{% endblock %}
+
+{% block content %}
+    <h2>СОЗДАНИЕ НОВОСТИ</h2>
+
+    <!-- Отображение имени и фамилии автора -->
+    <h3>Автор: {{ request.user.first_name }} {{ request.user.last_name }}</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Название новости:</label>
+        <input type="text" name="title" required>
+        <br>
+
+        <!-- Добавляем выбор категории -->
+        <label for="id_category">Категория:</label>
+        <select name="category" id="id_category">
+            <option value="">Выберите категорию</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label>Содержание:</label>
+        <textarea name="content" required></textarea>
+        <br>
+        <button type="submit">Записать</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+{% endblock %}

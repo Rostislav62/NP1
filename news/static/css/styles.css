@@ -1,0 +1,193 @@
+/* Общие стили для формы фильтрации */
+.filter-form {
+    margin-top: 20px; /* Отступ сверху для формы фильтрации */
+}
+
+/* Контейнер для фильтров */
+.filter-container {
+    display: flex; /* Flexbox для горизонтального расположения */
+    flex-wrap: wrap; /* Перенос блоков на новую строку при нехватке места */
+    gap: 20px; /* Расстояние между блоками */
+}
+
+/* Блоки фильтров */
+.filter-block {
+    padding: 10px; /* Внутренние отступы для блоков фильтров */
+    border: 1px solid #ccc; /* Тонкая окантовка для блоков фильтров */
+    border-radius: 5px; /* Скругленные углы блоков фильтров */
+    box-sizing: border-box; /* Включает паддинг и бордер в ширину элемента */
+}
+
+/* Поля ввода и селекты в блоках фильтра */
+.filter-block input,
+.filter-block select {
+    width: 100%; /* Ширина поля ввода или выбора на 100% ширины блока */
+    padding: 5px; /* Внутренние отступы для удобства ввода */
+    border: 1px solid #ccc; /* Тонкая окантовка для полей ввода */
+    border-radius: 3px; /* Скругленные углы полей ввода */
+}
+
+/* Кнопка поиска */
+.filter-block.find-button {
+    display: flex; /* Flexbox для выравнивания кнопки поиска */
+    justify-content: center; /* Центрирование кнопки по горизонтали */
+    align-items: center; /* Центрирование кнопки по вертикали */
+}
+
+/* Стили для пагинации */
+.pagination {
+    margin-top: 20px; /* Отступ сверху для пагинации */
+    text-align: center; /* Центрирование текста пагинации */
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 12px; /* Внутренние отступы для ссылок пагинации */
+    margin: 0 5px; /* Отступы между элементами пагинации */
+    border: 1px solid #ced4da; /* Окантовка для ссылок пагинации */
+    border-radius: 4px; /* Скругленные углы для ссылок пагинации */
+    text-decoration: none; /* Убираем подчеркивание у ссылок пагинации */
+}
+
+.pagination .current {
+    background-color: #007bff; /* Цвет фона для текущей страницы */
+    color: white; /* Цвет текста для текущей страницы */
+}
+
+/* Стили для списка публикаций */
+.result-list {
+    list-style-type: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем внутренние отступы списка */
+}
+
+/* Каждая запись оборачивается в отдельный бокс */
+.result-item {
+    border: 1px solid #ccc; /* Тонкая окантовка для боксов записей */
+    padding: 15px; /* Внутренние отступы для боксов записей */
+    margin-bottom: 15px; /* Отступ между боксами записей */
+    border-radius: 5px; /* Скругленные углы для боксов записей */
+    background-color: #f9f9f9; /* Цвет фона для боксов записей */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для боксов записей */
+    display: flex; /* Flexbox для расположения элементов в боксах */
+    flex-direction: column; /* Элементы располагаются вертикально */
+}
+
+/* Контейнер для деталей записи */
+.result-details {
+    display: flex; /* Flexbox для горизонтального расположения элементов */
+    gap: 30px; /* Расстояние между элементами */
+    flex-wrap: wrap; /* Если не хватает места, элементы переходят на новую строку */
+    margin-bottom: 15px; /* Отступ между деталями и содержанием записи */
+}
+
+/* Контейнер для содержимого записи */
+.result-content {
+    margin-top: 5px; /* Отступ сверху для содержимого записи */
+}
+
+/* Стили для ссылок в записи */
+.result-item a {
+    color: #007bff; /* Цвет ссылок */
+    text-decoration: none; /* Убираем подчеркивание у ссылок */
+}
+
+.result-item a:hover {
+    text-decoration: underline; /* Подчеркивание при наведении на ссылку */
+}
+
+/* Стили для заголовков в записи */
+.result-item .label {
+    font-weight: bold; /* Жирный текст для меток (например, "Автор:") */
+    margin-right: 10px; /* Отступ справа от меток */
+    display: inline; /* Метки отображаются в строку, не переходят на новую строку */
+}
+
+/* Стили для значений в записи */
+.result-item .value {
+    font-weight: normal; /* Обычный текст для значений (например, имени автора) */
+    display: inline; /* Значения отображаются в строку, не переходят на новую строку */
+}
+
+/* Стили для элементов внутри деталей записи */
+.result-details span {
+    display: inline-block; /* Элементы располагаются в строку, но могут занимать нужное пространство */
+}
+
+
+
+/* Контейнер для заголовка и кнопки поиска */
+.header-container {
+    display: flex; /* Flexbox для горизонтального расположения элементов */
+    justify-content: space-between; /* Разделяет элементы с максимальным пространством между ними */
+    align-items: center; /* Центрирует элементы по вертикали */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+/* Кнопка поиска */
+.search-button {
+    background-color: #28a745; /* Зеленый цвет фона */
+    color: white; /* Белый цвет текста */
+    padding: 10px 20px; /* Внутренние отступы */
+    border: none; /* Убираем границы */
+    border-radius: 5px; /* Скругленные углы */
+    text-decoration: none; /* Убираем подчеркивание текста */
+    font-weight: bold; /* Жирное начертание текста */
+}
+
+.search-button:hover {
+    background-color: #218838; /* Темно-зеленый цвет фона при наведении */
+}
+
+
+
+/* Стили для страницы логина */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Цвет фона для страницы логина */
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 20px;
+}
+
+.login-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    background-color: #fff;
+}
+
+
+/* Стили для заголовка */
+h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Стили для выравнивания элементов в один ряд */
+.info-row {
+    display: flex;
+    gap: 20px; /* Расстояние между элементами */
+    align-items: center; /* Выравнивание по вертикали */
+}
+
+/* Указываем, что каждый элемент должен занимать одинаковую ширину */
+.info-row div {
+    flex: 1;
+}
+
+/* Увеличиваем жирность текста для меток (labels) */
+.label {
+    font-weight: bold;
+    margin-right: 5px;
+}

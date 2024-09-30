@@ -1,0 +1,24 @@
+<!-- Путь: templates/news/home.html -->
+
+{% extends 'news/default.html' %}
+
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block header %}Главная страница{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h1>Это информационный портал</h1>
+
+        <!-- Добавление изображения под текстом -->
+        <div class="image-container mt-3">
+            <img src="{% static 'pictures/Novosti.jpg' %}" alt="Изображение новостного портала" style="width: 100%; max-width: 600px;">
+        </div>
+
+        <p>Добро пожаловать на наш новостной портал!</p>
+        <p>Перейдите в раздел <a href="{% url 'article_list' %}">новостей</a>, чтобы увидеть последние события.</p>
+
+    </div>
+{% endblock %}

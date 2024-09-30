@@ -1,0 +1,57 @@
+{% extends 'news/default.html' %}
+
+{% block title %}Редактирование статьи{% endblock %}
+
+{% block header %}РЕДАКТИРОВАНИЕ СТАТЬИ{% endblock %}
+
+
+{% block content %}
+
+    <div class="container mt-4">
+        <form method="post">
+            {% csrf_token %}
+            <h2>
+                РЕДАКТИРОВАНИЕ СТАТЬИ
+            </h2>
+            <br>
+
+            <div class="form-group mb-4">
+                <div class="info-row">
+                    <div>
+                        <strong class="label">Автор:</strong>
+                        <span class="author">{{ article.author_profile.user.first_name }} {{ article.author_profile.user.last_name }}</span>
+                    </div>
+
+                    <div>
+                        <strong class="label">Тип публикации:</strong>
+                        <span>{{ article.article_type|yesno:"Новость,Статья" }}</span>
+                    </div>
+
+                    <div>
+                        <strong class="label">Дата публикации:</strong>
+                        <span>{{ article.publication_date }}</span>
+                    </div>
+
+                    <div>
+                        <strong class="label">Рейтинг публикации:</strong>
+                        <span>{{ article.rating.value|default:"Рейтинга пока нет" }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="publication_date" value="{% now 'Y-m-d' %}">
+
+            <div class="form-group mb-4">
+                <strong class="label">Название статьи:</strong>
+                <input type="text" class="form-control" id="title" name="title" value="{{ article.title }}" required>
+            </div>
+
+            <div class="form-group mb-4">
+                <strong class="label">Содержание:</strong>
+                <textarea class="form-control" id="content" name="content" rows="6" required>{{ article.content }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Обновить</button>
+        </form>
+    </div>
+{% endblock %}

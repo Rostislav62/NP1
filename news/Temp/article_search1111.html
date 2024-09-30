@@ -1,0 +1,106 @@
+{% extends 'news/default.html' %}
+
+{% block title %}Поиск публикации{% endblock %}
+
+{% block header %}Поиск публикации{% endblock %}
+
+{% block content %}
+
+    <!-- Отображение количества найденных публикаций -->
+    <h2>Количество публикаций по запросу: {{ filterset.qs.count|default:0 }}</h2>
+
+    <!-- Фильтр публикаций и сброс -->
+    <div class="row">
+        <h2 class="col-md-6">Фильтр публикаций</h2>
+        <button type="reset" class="btn btn-warning col-md-6 text-end">Сбросить все фильтры</button>
+    </div>
+
+    <form method="get" class="filter-form">
+
+        <!-- Фильтр по заголовку -->
+        <div class="filter-block">
+            <label for="id_title">Заголовок</label>
+            {{ filterset.form.title }}
+        </div>
+
+        <!-- Фильтр по контенту -->
+        <div class="filter-block">
+            <label for="id_content">Контент</label>
+            {{ filterset.form.content }}
+        </div>
+
+        <!-- Фильтр по автору -->
+        <div class="filter-block">
+            <label for="id_author">Автор</label>
+            {{ filterset.form.author }}
+        </div>
+
+        <!-- Фильтр по категории -->
+        <div class="filter-block">
+            <label for="id_category">Категория</label>
+            {{ filterset.form.category }}
+        </div>
+
+        <!-- Фильтр по типу (Все, Статья, Новость) -->
+        <div class="filter-block">
+            <label for="id_type">Тип</label>
+            <select name="type" class="form-control">
+                <option value="">Все</option>
+                <option value="article" {% if request.GET.type == 'article' %}selected{% endif %}>Статья</option>
+                <option value="news" {% if request.GET.type == 'news' %}selected{% endif %}>Новость</option>
+            </select>
+        </div>
+
+        <!-- Фильтр по дате публикации и кнопка "Найти" -->
+        <div class="row align-items-center">
+            <div class="col-md-9">
+                <label for="id_publication_date">Дата публикации</label>
+                {{ filterset.form.publication_date }}
+            </div>
+            <div class="col-md-3 text-end">
+                <button type="submit" class="btn btn-primary">Найти</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Отображение результатов поиска -->
+    {% if page_obj %}
+        <h2>Результаты поиска:</h2>
+        <ul>
+            {% for article in page_obj %}
+                <li>
+                    <strong>{{ article.title }}</strong> - {{ article.author }} <br>
+                    <small>Дата: {{ article.publication_date|date:"d.m.Y" }}</small> <br>
+                    {{ article.content|slice:":20" }}...
+                    <a href="{% url 'article_detail' article.id %}">подробнее</a>
+                </li>
+            {% empty %}
+                <p>Нет результатов.</p>
+            {% endfor %}
+        </ul>
+
+        <!-- Пагинация -->
+        {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?{% if filterset.form.data %}{{ filterset.form.data.urlencode }}&{% endif %}page=1" title="Первая страница">&lt;&lt;</a>
+                    <a href="?{% if filterset.form.data %}{{ filterset.form.data.urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}" title="Предыдущая страница">&lt;</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <span class="current">{{ num }}</span>
+                    {% else %}
+                        <a href="?{% if filterset.form.data %}{{ filterset.form.data.urlencode }}&{% endif %}page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?{% if filterset.form.data %}{{ filterset.form.data.urlencode }}&{% endif %}page={{ page_obj.next_page_number }}" title="Следующая страница">&gt;</a>
+                    <a href="?{% if filterset.form.data %}{{ filterset.form.data.urlencode }}&{% endif %}page={{ page_obj.paginator.num_pages }}" title="Последняя страница">&gt;&gt;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

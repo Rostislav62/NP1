@@ -1,0 +1,70 @@
+<!-- news/edit_profile -->
+
+
+{% extends 'news/default.html' %}
+
+{% block content %}
+  <h2>Редактирование профиля</h2>
+
+  <!-- Форма отправляется методом POST -->
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Отображаем поля формы (поля профиля пользователя) -->
+    {{ form.as_p }}
+
+    <!-- Тип пользователя (Reader/Author) -->
+    <label for="is_author">Тип пользователя:</label>
+    <select name="is_author" id="is_author">
+      <!-- Опция Reader (по умолчанию выбрана, если пользователь не автор) -->
+      <option value="False" {% if not is_author %}selected{% endif %}>Reader</option>
+
+      <!-- Опция Author (выбрана, если пользователь автор) -->
+      <option value="True" {% if is_author %}selected{% endif %}>Author</option>
+    </select><br>
+
+    <!-- Статус аккаунта (Тип аккаунта) -->
+    <label for="account_type">Тип аккаунта:</label>
+    <select name="account_type" id="account_type">
+      <!-- Опция Basic (по умолчанию выбрана, если пользователь не premium) -->
+      <option value="False" {% if not is_premium %}selected{% endif %}>Basic</option>
+
+      <!-- Опция Premium (выбрана, если пользователь premium) -->
+      <option value="True" {% if is_premium %}selected{% endif %}>Premium</option>
+    </select>
+
+    <!-- Поля для ввода данных карточки (отображаются, если выбран Premium) -->
+    <div id="card-details" style="display: {% if is_premium %}block{% else %}none{% endif %};">
+      <h3>Введите реквизиты вашей карточки для получения Premium аккаунта</h3>
+      <p>
+        <label for="id_card_number">Card Number:</label>
+        <input type="text" name="card_number" id="id_card_number" placeholder="Enter your card number">
+      </p>
+      <p>
+        <label for="id_expiration_date">Expiration Date:</label>
+        <input type="text" name="expiration_date" id="id_expiration_date" placeholder="MM/YY">
+      </p>
+      <p>
+        <label for="id_cvv">CVV:</label>
+        <input type="text" name="cvv" id="id_cvv" placeholder="Enter CVV">
+      </p>
+    </div>
+
+
+
+    <!-- Кнопка для отправки изменений -->
+    <br><button type="submit" class="btn btn-primary">Сохранить изменения</button>
+  </form>
+
+  <!-- Скрипт для динамического отображения полей карточки -->
+  <script>
+    document.getElementById('account_type').addEventListener('change', function() {
+      const cardDetails = document.getElementById('card-details');
+      if (this.value === 'True') {
+        cardDetails.style.display = 'block';  // Показать поля для ввода карточки
+      } else {
+        cardDetails.style.display = 'none';   // Скрыть поля для ввода карточки
+      }
+    });
+  </script>
+{% endblock %}

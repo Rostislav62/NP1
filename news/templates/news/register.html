@@ -1,0 +1,16 @@
+{% extends 'news/default.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="register-container" style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <div class="register-box" style="border: 1px solid #ccc; padding: 20px; width: 300px; text-align: center;">
+        <h2>Регистрация</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

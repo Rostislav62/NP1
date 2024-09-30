@@ -1,0 +1,124 @@
+<!-- Путь: templates/news/default.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}News Portal{% endblock %}</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .header {
+            background-color: black;
+            color: white;
+            padding: 10px 5%;
+        }
+        .footer {
+            background-color: gray;
+            color: black;
+            text-align: center;
+        }
+        .header-line, .footer-line {
+            height: 2px;
+            background-color: black;
+        }
+        .content-container {
+            width: 70%;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .link {
+            text-decoration: none;
+            color: white;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-left .portal-title {
+            color: lightblue; /* Светло-голубой цвет */
+            font-weight: bold;
+            font-size: 26px; /* Увеличенный размер шрифта */
+            margin-right: 10mm;
+        }
+        .menu-item {
+            margin-right: 20px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header-right .username {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="header d-flex justify-content-between align-items-center">
+        <div class="header-left" style="margin-left: 10%;">
+            <a href="{% url 'home' %}" class="portal-title">News Portal</a>
+            <nav>
+                <a href="{% url 'home' %}" class="link menu-item">Главная</a>
+                <a href="{% url 'article_list' %}" class="link menu-item">Публикации</a>
+                <a href="{% url 'article_search' %}" class="link menu-item">Поиск</a>
+                <a href="{% url 'create_news' %}" class="link menu-item">Новость +</a>
+                <a href="{% url 'create_article' %}"  class="link menu-item">Статья +</a>
+                <a href="/admin/" class="link menu-item">Панель Администратора</a>
+            </nav>
+        </div>
+        <div class="header-right" style="margin-right: 10%;">
+            <span>Язык:</span>
+            <select class="link">
+                <option>RU</option>
+                <option>EN</option>
+            </select>
+            <span class="username">
+                {% if user.is_authenticated %}
+                    {{ user.username }}
+                {% else %}
+                    ...
+                {% endif %}
+            </span>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="link">Выход</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="link">Вход</a>
+            {% endif %}
+
+            <a href="{% url 'profile' %}" class="link">Профиль</a>
+        </div>
+    </div>
+    <div class="header-line"></div>
+
+    <div class="content-container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="footer-line"></div>
+    <div class="footer py-3 d-flex justify-content-between align-items-center" style="padding: 0 10%;">
+        <a href="{% url 'home' %}" class="link"></a>
+        <div class="text-end">
+            Наш телефон: +353 871444333 <br>
+            наш email: dj_pr2@skillprogect.com
+        </div>
+    </div>
+
+    <!-- Подключение Bootstrap JS и зависимостей (опционально) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

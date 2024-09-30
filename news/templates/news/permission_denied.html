@@ -1,0 +1,19 @@
+{% extends 'news/default.html' %}
+
+{% block title %}Доступ запрещен{% endblock %}
+
+{% block header %}Доступ запрещен{% endblock %}
+
+{% block content %}
+  <div style="text-align: center; margin-top: 50px;">
+    <h2>У вас нет прав для доступа к этой странице</h2>
+    <p>Вы будете перенаправлены на главную страницу через 5 секунд.</p>
+  </div>
+
+  <script>
+    // Перенаправление на главную страницу через 5 секунд
+    setTimeout(function() {
+      window.location.href = '/';
+    }, 5000);
+  </script>
+{% endblock %}

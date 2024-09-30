@@ -1,0 +1,49 @@
+<!-- Путь: templates/news/article_detail.html -->
+{% extends 'news/default.html' %}
+{% load censor_filters %}  <!-- Подключение фильтра censor -->
+
+{% block title %}Публикация  {{ article.title }}{% endblock %}
+
+{% block header %}Публикация - {{ article.title|censor }}{% endblock %}
+
+{% block content %}
+    <h1>{{ article.title|censor }}</h1> <!-- Применение фильтра к заголовку -->
+
+    <div class="form-group mb-4">
+        <div class="info-row">
+            <div>
+                <strong class="label">Автор:</strong>
+                <span class="author">{{ article.author_profile.user.first_name }} {{ article.author_profile.user.last_name }}</span>
+            </div>
+
+            <div>
+                <strong class="label">Тип публикации:</strong>
+                <span>{{ article.article_type|yesno:"Новость,Статья" }}</span>
+            </div>
+
+            <!-- Добавляем вывод категории -->
+            <div>
+                <strong class="label">Категория:</strong>
+                <span>{{ article.category.name|default:"Категория не указана" }}</span>
+            </div>
+
+            <div>
+                <strong class="label">Дата публикации:</strong>
+                <span>{{ article.publication_date }}</span>
+            </div>
+
+            <div>
+                <strong class="label">Рейтинг публикации:</strong>
+                {% with rating_value=article.rating.value %}
+                    <span>{{ rating_value|default:"Рейтинга пока нет" }}</span>
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-4">
+        <strong class="label">Содержание:</strong>
+    </div>
+
+    <p>{{ article.content|censor }}</p> <!-- Применение фильтра к тексту -->
+{% endblock %}

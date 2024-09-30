@@ -1,0 +1,71 @@
+{% extends 'news/default.html' %}
+{% load static %}
+{% load censor_filters %}  <!-- Подключение фильтра censor -->
+
+{% block title %}Список публикаций{% endblock %}
+
+{% block header %}Список публикаций{% endblock %}
+
+{% block content %}
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <div class="header-container">
+        <!-- Отображение количества публикаций -->
+        <h1>Количество публикаций: {{ total_count }}</h1>
+        <!-- Кнопка поиска -->
+        <a href="{% url 'article_search' %}" class="search-button">Поиск</a>
+    </div>
+
+    <ul class="result-list">
+        {% for article in page_obj %}
+            <li class="result-item">
+                <div class="result-details">
+                    <div><strong class="label">Автор:</strong> <span class="author">{{ article.author_profile.user.first_name }} {{ article.author_profile.user.last_name }}</span></div>
+                    <div><strong class="label">Дата:</strong> <span class="date">{{ article.publication_date|date:"d.m.Y" }}</span></div>
+                    <div><strong class="label">Категория:</strong> <span class="category">***</span></div>
+                    <div><strong class="label">Рейтинг:</strong> <span class="title">Рейтинга пока нет</span></div>
+                    <div><strong class="label">Тип:</strong>
+                        <span class="title">{{ article.article_type|yesno:"Новость,Статья" }}</span>
+                    </div>
+                </div>
+
+                <div class="result-content">
+                    <div><strong class="label">Название:</strong> <span class="title">{{ article.title|censor }}</span></div>
+                    <span><strong>Содержание:</strong> {{ article.content|slice:":40" }}...&nbsp;&nbsp;&nbsp;<a href="{% url 'article_detail' article.id %}">Читать полностью</a></span>
+                </div>
+            </li>
+        {% empty %}
+            <p>Публикаций пока нет.</p>
+        {% endfor %}
+    </ul>
+
+    <!-- Пагинация -->
+    {% if page_obj.has_other_pages %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" title="Первая страница">«</a>
+                <a href="?page={{ page_obj.previous_page_number }}" title="Предыдущая страница">‹</a>
+            {% else %}
+                <span class="disabled">«</span>
+                <span class="disabled">‹</span>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <span class="current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" title="Следующая страница">›</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" title="Последняя страница">»</a>
+            {% else %}
+                <span class="disabled">›</span>
+                <span class="disabled">»</span>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

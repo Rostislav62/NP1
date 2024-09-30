@@ -1,0 +1,217 @@
+{# Путь: news/templates/news/article_search.html #}
+{% extends 'news/default.html' %}
+
+{% load static %}
+
+{% block title %}Поиск публикации{% endblock %}
+
+{% block header %}Поиск публикации{% endblock %}
+
+{% block content %}
+
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <!-- Отображение количества найденных публикаций -->
+   <h2>
+       Количество публикаций по запросу:
+       {% if page_obj %}
+           {{ filterset.qs.count|default:0 }}
+       {% else %}
+           0
+       {% endif %}
+   </h2>
+
+
+    <!-- Фильтр публикаций и сброс -->
+    <div class="row">
+        <h2 class="col-md-6">Фильтр публикаций</h2>
+        <div class="col-md-6 text-end">
+            <a href="{% url 'article_search' %}" class="btn btn-warning btn-reset">Сбросить все фильтры</a>
+        </div>
+    </div>
+
+
+    <form method="get" class="filter-form">
+        <!-- Контейнер для всех блоков фильтров -->
+        <div class="filter-container">
+
+            <!-- (фильтры для названия) -->
+            <div class="filter-block title-filter">
+                <label for="id_title">Название содержит</label>
+                <div class="input-container">
+                    {{ filterset.form.title }}
+                </div>
+            </div>
+
+            <div class="filter-block content-filter">
+                <label for="id_content">Текст содержит</label>
+                <div class="input-container">
+                    {{ filterset.form.content }}
+                </div>
+            </div>
+
+            <div class="filter-block rating-filter">
+                <label for="id_type">Рейтинг</label>
+                <div class="input-container">
+                    <select name="type" class="form-control">
+                        <option value="">Все</option>
+                        {% for rating in ratings %}
+                            <option value="{{ rating.value }}" {% if request.GET.type == rating.value|stringformat:"d" %}selected{% endif %}>{{ rating.value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="filter-block author-filter">
+                <label for="id_author">Автор</label>
+                <div class="input-container">
+                    <select name="author_profile" id="id_author" class="form-control">
+                        <option value="">Все</option>
+                        {% for author in authors %}
+                            <option value="{{ author.profile.id }}">{{ author.first_name }} {{ author.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="filter-block category-filter">
+                <label for="id_category">Категория</label>
+                <div class="input-container">
+                    <select name="category" id="id_category">
+                        <option value="">Выберите категорию</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="filter-block type-filter">
+                <label for="id_type">Тип статьи</label>
+                <div class="input-container">
+                    <select name="article_type" class="form-control">
+                        <option value="">Все</option>
+                        <option value="1" {% if request.GET.article_type == '1' %}selected{% endif %}>Статья</option>
+                        <option value="0" {% if request.GET.article_type == '0' %}selected{% endif %}>Новость</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="filter-block date-filter">
+                <label for="id_publication_date">Дата публикации</label>
+                <div class="input-container">
+                    {{ filterset.form.publication_date }}
+                </div>
+            </div>
+
+            <div class="filter-block find-button">
+                <button type="submit" class="btn btn-primary">Найти</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Отображение результатов поиска -->
+    <div class="search-results">
+        {% if page_obj %}
+            <h2>Результаты поиска:</h2>
+        <ul class="result-list">
+            {% for article in page_obj %}
+                <li class="result-item">
+
+                    <div class="result-details">
+                        <div><strong class="label">Автор:</strong> <span class="author">{{ article.author_profile.user.first_name }} {{ article.author_profile.user.last_name }}</span></div>
+                        <div><strong class="label">Дата:</strong> <span class="date">{{ article.publication_date|date:"d.m.Y" }}</span></div>
+                        <div><strong class="label">Категория:</strong> <span class="category">{{ article.category.name }}</span></div>
+                        <div><strong class="label">Рейтинг:</strong> <span class="title">{{ article.rating.value|default:"Рейтинга пока нет" }}</span></div>
+
+                        <div><strong class="label">Тип:</strong>
+                            <span class="title">{{ article.article_type|yesno:"Новость,Статья" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="result-content">
+                        <div><strong class="label">Название:</strong> <span class="title">{{ article.title }}</span></div>
+                        <span><strong>Содержание:</strong> {{ article.content|slice:":40" }}...&nbsp;&nbsp;&nbsp;<a href="{% url 'article_detail' article.id %}">Читать полностью</a></span>
+                    </div>
+
+
+
+
+
+                    <!-- Кнопки редактирования и удаления (если одна запись) -->
+                    {% if page_obj.paginator.count == 1 %}
+                        <div class="edit-delete-buttons">
+                            {% if user.is_authenticated %}
+                                {% if user.is_superuser or user == article.author_profile.user %}
+                                    <!-- Если пользователь автор или суперпользователь -->
+                                    {% if article.article_type %}
+                                        <a href="{% url 'edit_news' article.id %}" class="btn btn-primary">Редактировать</a>
+                                        <a href="{% url 'delete_news' article.id %}" class="btn btn-danger">Удалить</a>
+                                    {% else %}
+                                        <a href="{% url 'edit_article' article.id %}" class="btn btn-primary">Редактировать</a>
+                                        <a href="{% url 'delete_article' article.id %}" class="btn btn-danger">Удалить</a>
+                                    {% endif %}
+                                {% else %}
+                                    <!-- Перенаправление на страницу permission_denied.html, если нет прав -->
+                                    <script>
+                                        window.location.href = "{% url 'permission_denied' %}";
+                                    </script>
+                                {% endif %}
+                            {% else %}
+                                <!-- Перенаправление на страницу permission_denied.html, если не аутентифицирован -->
+                                <script>
+                                    window.location.href = "{% url 'permission_denied' %}";
+                                </script>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+
+
+
+
+                </li>
+            {% empty %}
+                <p>Нет результатов.</p>
+            {% endfor %}
+        </ul>
+
+            <!-- Пагинация -->
+            {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?{{ filter_params }}&page=1" title="Первая страница">«</a>
+                        <a href="?{{ filter_params }}&page={{ page_obj.previous_page_number }}" title="Предыдущая страница">‹</a>
+                    {% else %}
+                        <span class="disabled">«</span>
+                        <span class="disabled">‹</span>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="current">{{ num }}</span>
+                        {% else %}
+                            <a href="?{{ filter_params }}&page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?{{ filter_params }}&page={{ page_obj.next_page_number }}" title="Следующая страница">›</a>
+                        <a href="?{{ filter_params }}&page={{ page_obj.paginator.num_pages }}" title="Последняя страница">»</a>
+                    {% else %}
+                        <span class="disabled">›</span>
+                        <span class="disabled">»</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+
+        {% endif %}
+    </div>
+
+{% endblock %}

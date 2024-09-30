@@ -1,0 +1,47 @@
+{% extends 'news/default.html' %}
+{% load static %}  <!-- Подключение статических файлов -->
+
+
+{% block content %}
+  <h2>Регистрация</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div id="card-details" style="display: none;">
+      <h3>Введите реквизиты вашей карточки для получения Premium аккаунта</h3>
+      <p>
+        <label for="id_card_number">Card Number:</label>
+        <input type="text" name="card_number" id="id_card_number" placeholder="Enter your card number">
+      </p>
+      <p>
+        <label for="id_expiration_date">Expiration Date:</label>
+        <input type="text" name="expiration_date" id="id_expiration_date" placeholder="MM/YY">
+      </p>
+      <p>
+        <label for="id_cvv">CVV:</label>
+        <input type="text" name="cvv" id="id_cvv" placeholder="Enter CVV">
+      </p>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </form>
+
+  <hr>
+
+  <p>Войти через:</p>
+
+
+  <script>
+    const accountTypeField = document.querySelector('select[name="account_type"]');
+    const cardDetailsDiv = document.getElementById('card-details');
+
+    accountTypeField.addEventListener('change', function() {
+      if (this.value === 'True') {
+        cardDetailsDiv.style.display = 'block';
+      } else {
+        cardDetailsDiv.style.display = 'none';
+      }
+    });
+  </script>
+{% endblock %}
