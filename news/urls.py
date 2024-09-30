@@ -4,6 +4,7 @@ from . import views
 from .views import article_search, create_news, create_article, CustomPasswordChangeView, CustomPasswordChangeDoneView
 from django.contrib.auth import views as auth_views
 from .views import edit_profile
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -35,6 +36,8 @@ urlpatterns = [
 
     path('edit_profile/', edit_profile, name='edit_profile'),
 
-    path('accounts/', include('allauth.urls')),
+    # path('accounts/', include('allauth.urls')),
+    # Временное решение: перенаправление с /accounts/login/ на /login/
+    path('accounts/login/', lambda request: redirect('login'), name='accounts_login_redirect'),
 
 ]

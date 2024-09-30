@@ -24,11 +24,11 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.messages',
 
-    'allauth',
-    'allauth.account',
-
-    # Optional -- requires install using `django-allauth[socialaccount]`.
-    'allauth.socialaccount',
+    # 'allauth',
+    # 'allauth.account',
+    #
+    # # Optional -- requires install using `django-allauth[socialaccount]`.
+    # 'allauth.socialaccount',
 
     # # 'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.yandex',  # Для Yandex
@@ -39,13 +39,13 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+#
+#     # `allauth` specific authentication methods, such as login by email
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 # Настройки allauth
 # ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
@@ -62,8 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Add the account middleware:
-    "allauth.account.middleware.AccountMiddleware",
+    # # Add the account middleware:
+    # "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'NewsPortal.urls'

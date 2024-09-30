@@ -157,7 +157,7 @@ def login_view(request):
 def home(request):
     return render(request, 'news/home.html')
 
-@user_passes_test(is_author_or_superuser)
+@user_passes_test(is_author_or_superuser, login_url='permission_denied')
 def edit_news(request, pk):
     article = get_object_or_404(Article, pk=pk, article_type=True)
     if request.method == 'POST':
@@ -178,7 +178,7 @@ def edit_news(request, pk):
 
     return render(request, 'news/edit_news.html', {'article': article})
 
-@user_passes_test(is_author_or_superuser)
+@user_passes_test(is_author_or_superuser, login_url='permission_denied')
 def edit_article(request, pk):
     article = get_object_or_404(Article, pk=pk, article_type=False)
     if request.method == 'POST':
@@ -199,7 +199,7 @@ def edit_article(request, pk):
 
     return render(request, 'news/articles/edit_article.html', {'article': article})
 
-@user_passes_test(is_author_or_superuser)
+@user_passes_test(is_author_or_superuser, login_url='permission_denied')
 def delete_news(request, pk):
     item = get_object_or_404(Article, pk=pk, type=True)
     if request.method == 'POST':
@@ -207,7 +207,7 @@ def delete_news(request, pk):
         return redirect('article_list')
     return render(request, 'news/delete_news.html', {'item': item})
 
-@user_passes_test(is_author_or_superuser)
+@user_passes_test(is_author_or_superuser, login_url='permission_denied')
 def delete_article(request, pk):
     item = get_object_or_404(Article, pk=pk, type=False)
     if request.method == 'POST':
@@ -216,7 +216,7 @@ def delete_article(request, pk):
     return render(request, 'news/articles/delete_article.html', {'item': item})
 
 
-@user_passes_test(is_author_or_superuser)
+@user_passes_test(is_author_or_superuser, login_url='permission_denied')
 def create_news(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -250,7 +250,7 @@ def create_news(request):
     })
 
 
-@user_passes_test(is_author_or_superuser)
+@user_passes_test(is_author_or_superuser, login_url='permission_denied')
 def create_article(request):
     if request.method == 'POST':
         title = request.POST.get('title')
