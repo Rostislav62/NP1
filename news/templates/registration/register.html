@@ -1,6 +1,6 @@
 {% extends 'news/default.html' %}
 {% load static %}  <!-- Подключение статических файлов -->
-
+{% load socialaccount %}
 
 {% block content %}
   <h2>Регистрация</h2>
@@ -31,6 +31,10 @@
 
   <p>Войти через:</p>
 
+
+  <a href="{% provider_login_url 'yandex' %}">
+      <img src="{% static 'pictures/yandex_logo.jpg' %}" alt="Войти через Yandex" width="100" height="auto">
+  </a>
 
   <script>
     const accountTypeField = document.querySelector('select[name="account_type"]');

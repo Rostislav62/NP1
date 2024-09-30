@@ -36,7 +36,7 @@ urlpatterns = [
 
     path('edit_profile/', edit_profile, name='edit_profile'),
 
-    # path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
     # Временное решение: перенаправление с /accounts/login/ на /login/
     path('accounts/login/', lambda request: redirect('login'), name='accounts_login_redirect'),
 

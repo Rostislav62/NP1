@@ -24,34 +24,35 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.messages',
 
-    # 'allauth',
-    # 'allauth.account',
-    #
-    # # Optional -- requires install using `django-allauth[socialaccount]`.
-    # 'allauth.socialaccount',
+    'allauth',
+    'allauth.account',
 
-    # # 'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.yandex',  # Для Yandex
-    # # 'allauth.socialaccount.providers.facebook',  # Для Facebook
-    # 'django_extensions',
+    # Optional -- requires install using `django-allauth[socialaccount]`.
+    'allauth.socialaccount',
+
+    # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.yandex',  # Для Yandex
+    # 'allauth.socialaccount.providers.google', # Для Google
+    # 'allauth.socialaccount.providers.facebook',  # Для Facebook
+    'django_extensions',
 ]
 
 SITE_ID = 1
 
 
-# AUTHENTICATION_BACKENDS = [
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     'django.contrib.auth.backends.ModelBackend',
-#
-#     # `allauth` specific authentication methods, such as login by email
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Настройки allauth
-# ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = 'none'
-# LOGIN_REDIRECT_URL = '/profile/'  # Перенаправление после входа
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/profile/'  # Перенаправление после входа
 
 
 MIDDLEWARE = [
@@ -62,8 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # # Add the account middleware:
-    # "allauth.account.middleware.AccountMiddleware",
+    # Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'NewsPortal.urls'
@@ -114,30 +115,30 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# SOCIAL_AUTH_GOOGLE_CLIENT_ID = '771106077612-36vhkl5km7dadmp0kjrdtsg82rm2ur56.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_SECRET = '<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>'
-# SOCIAL_AUTH_YANDEX_OAUTH2_KEY = '9272275d143b4775a2e9cfa4156b5f83'
-# SOCIAL_AUTH_YANDEX_OAUTH2_SECRET = '04b41453a2144c61b96e53e5a9e26bb7'
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = '771106077612-36vhkl5km7dadmp0kjrdtsg82rm2ur56.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_SECRET = '<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>'
+SOCIAL_AUTH_YANDEX_OAUTH2_KEY = '9272275d143b4775a2e9cfa4156b5f83'
+SOCIAL_AUTH_YANDEX_OAUTH2_SECRET = '04b41453a2144c61b96e53e5a9e26bb7'
 
 
 
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'APP': {
-#             'client_id': SOCIAL_AUTH_GOOGLE_CLIENT_ID,
-#             'secret': SOCIAL_AUTH_GOOGLE_SECRET,
-#             'key': ''
-#         }
-#     },
-#     'yandex': {
-#         'APP': {
-#             'client_id': SOCIAL_AUTH_YANDEX_OAUTH2_KEY,
-#             'secret': SOCIAL_AUTH_YANDEX_OAUTH2_SECRET,
-#             'key': ''
-#         }
-#     }
-# }
+SOCIALACCOUNT_PROVIDERS = {
+    # 'google': {
+    #     'APP': {
+    #         'client_id': SOCIAL_AUTH_GOOGLE_CLIENT_ID,
+    #         'secret': SOCIAL_AUTH_GOOGLE_SECRET,
+    #         'key': ''
+    #     }
+    # },
+    'yandex': {
+        'APP': {
+            'client_id': SOCIAL_AUTH_YANDEX_OAUTH2_KEY,
+            'secret': SOCIAL_AUTH_YANDEX_OAUTH2_SECRET,
+            'key': ''
+        }
+    }
+}
 
 
 
