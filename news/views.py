@@ -22,6 +22,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 
+
+
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -116,8 +118,31 @@ class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'registration/password_change_form.html'
     success_url = reverse_lazy('password_change_done')
 
+
 def permission_denied_view(request):
-    return render(request, 'news/permission_denied.html')
+    """
+    Отображает страницу с сообщением о запрете доступа и перенаправлением.
+    Сообщение и редирект зависят от статуса пользователя.
+    """
+    if not request.user.is_authenticated:
+        # Пользователь не залогинен
+        message = "Вы должны войти или зарегистрироваться"
+        redirect_url = 'login'
+    elif request.user.is_authenticated and not request.user.groups.filter(name='authors').exists():
+        # Пользователь залогинен, но не является автором
+        message = "Вы имеете только право на просмотр постов. Чтобы писать посты, смените тип пользователя на Author."
+        redirect_url = 'profile'
+    else:
+        # Пользователь является автором или суперпользователем
+        return redirect('/')  # На случай, если страница открыта по ошибке
+
+    # Отладочная информация
+    print(f"Message: {message}, Redirect URL: {redirect_url}")
+
+
+    # Передача сообщения и URL для перенаправления в шаблон
+    return render(request, 'news/permission_denied.html', {'message': message, 'redirect_url': redirect_url})
+
 
 
 def is_author_or_superuser(user):
@@ -137,7 +162,7 @@ def is_author_or_superuser(user):
     return False
 
 
-
+@login_required
 def profile_view(request):
     return render(request, 'news/profile.html', {'user': request.user})
 
