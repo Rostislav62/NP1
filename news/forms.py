@@ -35,13 +35,13 @@ class CustomUserCreationForm(UserCreationForm):
     ACCOUNT_TYPE_CHOICES = [(False, 'Simple'), (True, 'Premium')]
     USER_TYPE_CHOICES = [(False, 'Reader'), (True, 'Author')]
 
-    account_type = forms.ChoiceField(choices=ACCOUNT_TYPE_CHOICES, label="Account type", required=True,
-                                     widget=forms.Select)
-    is_author = forms.ChoiceField(choices=USER_TYPE_CHOICES, label="User type", required=True, widget=forms.Select)
+    # account_type = forms.ChoiceField(choices=ACCOUNT_TYPE_CHOICES, label="Account type", required=True,
+    #                                  widget=forms.Select)
+    # is_author = forms.ChoiceField(choices=USER_TYPE_CHOICES, label="User type", required=True, widget=forms.Select)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'account_type', 'is_author']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)

@@ -150,11 +150,13 @@
                                 {% if user.is_superuser or user == article.author_profile.user %}
                                     <!-- Если пользователь автор или суперпользователь -->
                                     {% if article.article_type %}
-                                        <a href="{% url 'edit_news' article.id %}" class="btn btn-primary">Редактировать</a>
-                                        <a href="{% url 'delete_news' article.id %}" class="btn btn-danger">Удалить</a>
+                                        <!-- Пример ссылки для редактирования новости -->
+                                        <a href="{% url 'edit_post' article.id %}?article_type=1" class="btn btn-primary">Редактировать</a>
+                                        <a href="{% url 'delete_post' article.id %}?article_type=1" class="btn btn-danger">Удалить</a>
                                     {% else %}
-                                        <a href="{% url 'edit_article' article.id %}" class="btn btn-primary">Редактировать</a>
-                                        <a href="{% url 'delete_article' article.id %}" class="btn btn-danger">Удалить</a>
+                                        <!-- Пример ссылки для редактирования статьи -->
+                                        <a href="{% url 'edit_post' article.id %}?article_type=0" class="btn btn-primary">Редактировать</a>
+                                        <a href="{% url 'delete_post' article.id %}?article_type=0" class="btn btn-danger">Удалить</a>
                                     {% endif %}
                                 {% else %}
                                     <!-- Перенаправление на страницу permission_denied.html, если нет прав -->

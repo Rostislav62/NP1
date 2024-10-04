@@ -1,0 +1,20 @@
+<!-- Путь: templates/emails/weekly_digest_email.html -->
+<html>
+<head>
+    <title>Еженедельный дайджест</title>
+</head>
+<body>
+    <h1>Еженедельный дайджест новых статей в категории {{ category.name }}</h1>
+    <p>Вот список новых статей за последнюю неделю:</p>
+    <ul>
+        {% for article in new_articles %}
+            <li>
+                <strong>{{ article.title }}</strong> — Автор: {{ article.author_profile.user.get_full_name }}
+                <br>
+                <a href="http://127.0.0.1:8000/news/{{ article.pk }}">Читать полностью</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <p>С уважением,<br>Команда сайта</p>
+</body>
+</html>

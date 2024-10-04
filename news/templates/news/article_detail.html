@@ -46,4 +46,28 @@
     </div>
 
     <p>{{ article.content|censor }}</p> <!-- Применение фильтра к тексту -->
+
+    <!-- Форма для подписки на категорию -->
+    <div class="subscription">
+        {% if user.is_authenticated %}
+            {% if user in article.category.subscribers.all %}
+                <p>Вы подписаны на категорию {{ article.category.name }}.</p>
+            {% else %}
+                <form method="POST" action="{% url 'subscribe_to_category' article.category.id %}">
+                    {% csrf_token %}
+                    <!-- Передаём ID статьи -->
+                    <input type="hidden" name="article_id" value="{{ article.id }}">
+
+                    <!-- Передача параметра use_console_backend (по умолчанию True для тестирования) -->
+                    <input type="hidden" name="use_console_backend" value="True">
+
+                    <button type="submit" class="btn btn-primary">Подпишитесь на категорию {{ article.category.name }}</button>
+                </form>
+            {% endif %}
+        {% else %}
+            <p>Чтобы подписаться на категорию, необходимо <a href="{% url 'login' %}">войти в систему</a>.</p>
+        {% endif %}
+    </div>
+
+
 {% endblock %}

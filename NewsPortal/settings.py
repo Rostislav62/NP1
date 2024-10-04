@@ -1,14 +1,46 @@
-from pathlib import Path
+# settings.py
 
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Загрузка переменных из .env файла
+load_dotenv()
+
+# Определение BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-na!pd)o*d=28hma3vgd5=vj&(i4v#my2&j#ggn8go2nvgntp(^'
+# Использование переменных окружения из .env
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+# Конфигурация для аутентификации Google
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = os.getenv('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_SECRET')
+
+# Конфигурация для аутентификации Yandex
+SOCIAL_AUTH_YANDEX_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_YANDEX_OAUTH2_KEY')
+SOCIAL_AUTH_YANDEX_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_YANDEX_OAUTH2_SECRET')
+
+# Email конфигурация из .env файла
+USE_CONSOLE_EMAIL_BACKEND = os.getenv('USE_CONSOLE_EMAIL_BACKEND') == 'True'
+# EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_BACKEND_CONSOLE = os.getenv('EMAIL_BACKEND_CONSOLE')
+EMAIL_BACKEND_SMTP = os.getenv('EMAIL_BACKEND_SMTP')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL') == 'True'
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'False'
+# Условие на основе значения USE_CONSOLE_EMAIL_BACKEND
+EMAIL_BACKEND = EMAIL_BACKEND_CONSOLE if USE_CONSOLE_EMAIL_BACKEND else EMAIL_BACKEND_SMTP
+
+WELCOME_EMAIL_VARIANT = int(os.getenv('WELCOME_EMAIL_VARIANT', 1))  # Значение по умолчанию - 1
+
 
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -30,11 +62,12 @@ INSTALLED_APPS = [
     # Optional -- requires install using `django-allauth[socialaccount]`.
     'allauth.socialaccount',
 
-    # 'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.yandex',  # Для Yandex
     # 'allauth.socialaccount.providers.google', # Для Google
     # 'allauth.socialaccount.providers.facebook',  # Для Facebook
     'django_extensions',
+
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -115,13 +148,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-SOCIAL_AUTH_GOOGLE_CLIENT_ID = '771106077612-36vhkl5km7dadmp0kjrdtsg82rm2ur56.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_SECRET = '<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>'
-SOCIAL_AUTH_YANDEX_OAUTH2_KEY = '9272275d143b4775a2e9cfa4156b5f83'
-SOCIAL_AUTH_YANDEX_OAUTH2_SECRET = '04b41453a2144c61b96e53e5a9e26bb7'
-
-
-
 
 SOCIALACCOUNT_PROVIDERS = {
     # 'google': {
@@ -160,3 +186,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
+SITE_URL = 'http://127.0.0.1:8000'  # базовый URL с портом
+
+# формат даты, которую будет воспринимать наш задачник
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"  # Формат отображения даты в логах
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается,
+# можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+
+# Логи
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'apscheduler': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
+

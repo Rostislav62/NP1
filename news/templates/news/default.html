@@ -74,8 +74,8 @@
                 <a href="{% url 'home' %}" class="link menu-item">Главная</a>
                 <a href="{% url 'article_list' %}" class="link menu-item">Публикации</a>
                 <a href="{% url 'article_search' %}" class="link menu-item">Поиск</a>
-                <a href="{% url 'create_news' %}" class="link menu-item">Новость +</a>
-                <a href="{% url 'create_article' %}"  class="link menu-item">Статья +</a>
+                <a href="{% url 'check_post_limit' %}?article_type=news" class="link menu-item">Новость +</a>
+                <a href="{% url 'check_post_limit' %}?article_type=article" class="link menu-item">Статья +</a>
                 <a href="/admin/" class="link menu-item">Панель Администратора</a>
             </nav>
         </div>

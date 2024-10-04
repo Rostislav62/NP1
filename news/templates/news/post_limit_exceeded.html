@@ -1,0 +1,13 @@
+{# Путь: news/templates/news/post_limit_exceeded.html #}
+
+{% extends 'news/default.html' %}
+
+{% block title %}Лимит постов превышен{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    <h2>Превышен лимит публикаций</h2>
+    <p>{{ error_message }}</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Вернуться на главную</a>
+</div>
+{% endblock %}
